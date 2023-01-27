@@ -1,3 +1,5 @@
+
+
 /* ## Acceptance Criteria
 
 * Create a weather dashboard with form inputs.
@@ -38,7 +40,7 @@ fill the box with the last searched api data
 5day forecast
     create the parent element and 5 cards.
 */
-
+const myKey = config.MY_KEY;
 let currentDay = moment().format('dddd, MMMM Do YYYY');
 let tomorrow = moment().format('dddd')
 console.log(tomorrow)
@@ -52,10 +54,7 @@ $('#current-day').text(currentDay);
 $('button').on('click', function(event){
     event.preventDefault();
     let searchVal = $('#search-input').val();
-    
-    var APIKey = "002a4fd1a988cedec1b101f5b9ba6c8b";
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchVal + "&appid=" + APIKey;
-    
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchVal + "&appid=" + myKey;
 
 $.ajax({
     url: queryURL,
@@ -67,7 +66,7 @@ $.ajax({
     let lon = response.coord.lon.toFixed(2);
     console.log(lat, lon)
     
-    var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" + lat +  "&lon=" + lon + "&appid=" + APIKey;
+    var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" + lat +  "&lon=" + lon + "&appid=" + myKey;
 
     $.ajax({
         
