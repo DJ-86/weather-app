@@ -40,8 +40,11 @@ fill the box with the last searched api data
 */
 
 let currentDay = moment().format('dddd, MMMM Do YYYY');
+let tomorrow = moment().format('dddd')
+console.log(tomorrow)
 // Targets the currentDay html element and sets it's text to the variable currentDay
 $('#current-day').text(currentDay);
+
 
 
 
@@ -58,17 +61,13 @@ $.ajax({
     url: queryURL,
     method: "GET"
 }).then(function(response) {
-    console.log(response);
-    $('#today').text(response.name + ' ' + currentDay);
-    let temp = $('<div>').append(Math.round(response.main.temp - 273.15) + "\u00B0" + 'C');
-    let wind = $('<div>').append(Math.round(response.wind.speed) + 'KM/H');
-    let humidity = $('<div>').append(response.main.humidity + '%');
+    
+
     let lat = response.coord.lat.toFixed(2);
     let lon = response.coord.lon.toFixed(2);
-    console.log(temp, wind, humidity, lat, lon);
-    $('#today').append(temp, wind, humidity);
-    var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat +  "&lon=" + lon + "&appid=" + APIKey;
-    console.log(fiveDayURL)
+    console.log(lat, lon)
+    
+    var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=" + lat +  "&lon=" + lon + "&appid=" + APIKey;
 
     $.ajax({
         
@@ -76,6 +75,24 @@ $.ajax({
         method: "GET"
     }).then(function(response) {
         console.log(response);
+        $('#today').text(response.city.name + ' ' + currentDay);
+        let temp = $('<div>').append(response.list[0].main.temp + "\u00B0" + 'C');
+        let wind = $('<div>').append(response.list[0].wind.speed +'mph');
+        let humidity = $('<div>').append(response.list[0].main.humidity + '%');
+        $('#today').append(temp, wind, humidity);
+
+        for(let i = 0; i < 40; i+=8) {
+            let forecastDate  = moment().add([i],'days').format('dddd')
+            let newDiv = $('<div>').attr('class', 'card').css({'background-color':'lightgrey'});
+            let fiveDayTemp = $('<div>').append(response.list[i].main.temp + "\u00B0" + 'C');
+            let fiveDayDate = $('<div>').append(forecastDate)
+            console.log(forecastDate)
+            let fiveDayWind = $('<div>').append(response.list[i].wind.speed +'mph');
+            let fiveDayHumidity = $('<div>').append(response.list[i].main.humidity + '%');
+
+            $(newDiv).append(fiveDayDate, fiveDayTemp, fiveDayWind, fiveDayHumidity);
+            $('#forecast').append(newDiv);
+        }
     })
 });
 })
