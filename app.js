@@ -1,4 +1,4 @@
-
+var storedNames = JSON.parse(localStorage.getItem("userSearches"))||[];
 let userSearches = [];
 const myKey = config.MY_KEY;
 
@@ -10,20 +10,40 @@ $('#current-day').text(currentDay);
 $(document).ready(displayArr);
 
 function displayArr() {
-    var storedNames = JSON.parse(localStorage.getItem("userSearches"))||[];
+    
+    console.log(storedNames[0]);
     let lat = localStorage.getItem('lat');
     let lon = localStorage.getItem('lon');
+    apiCalls(storedNames[0]);
+
 }    
 
 function apiCalls() {
-    let searchVal = $('#search-input').val();
+    
+    let searchVal = $('#search-input').val()
+    if (storedNames[0]) {
+        searchVal = storedNames[0];
+    } else if(searchVal == '') {
+        console.log(this)
+        searchVal = this.button.value;
+    }
+    
+
+    
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchVal + "&appid=" + myKey;
+    
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function(response) {
-        console.log(response);
-        userSearches.unshift(response.name)
+        console.log()
+        
+        if(!$('#search-input').val() == '') {
+            userSearches.unshift(response.name)
+        }
+        $('#search-input').val('');
+        
+        
         localStorage.setItem("userSearches", JSON.stringify(userSearches));
         lat = response.coord.lat.toFixed(2);
         lon = response.coord.lon.toFixed(2);
@@ -51,28 +71,24 @@ function dynamicEls(response) {
 
     for(let i = 7; i <= 39; i+=8) {
         let fiveDayIcon = response.list[i].weather[0].icon;
-        console.log(fiveDayIcon)
         let fiveDayImg = $('<img>').attr('src', 'https://openweathermap.org/img/wn/' + fiveDayIcon + '@2x.png')
         let forecastDate  = moment().add([i + 1],'days').format('dddd')
         let newDiv = $('<div>').attr('class', 'card').css({'background-color':'lightgrey'});
         let fiveDayTemp = $('<div>').append(response.list[i].main.temp + "\u00B0" + 'C');
         let fiveDayDate = $('<div>').append(forecastDate)
-        console.log(forecastDate)
         let fiveDayWind = $('<div>').append(response.list[i].wind.speed +'mph');
         let fiveDayHumidity = $('<div>').append(response.list[i].main.humidity + '%');
         $(newDiv).append(fiveDayDate, fiveDayImg,  fiveDayTemp, fiveDayWind, fiveDayHumidity);
         $('#forecast').append(newDiv);
     }
     addButtons();
-
 }
-
-
 
 $(document).on('click', 'button', function(event){
     event.preventDefault();
     $('#forecast').empty();
-    apiCalls();
+    button = this
+    apiCalls(button);
 })
 
 function addButtons() {
