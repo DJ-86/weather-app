@@ -1,5 +1,7 @@
 var storedNames = JSON.parse(localStorage.getItem("userSearches"))||[];
 let userSearches = [];
+let lat = localStorage.getItem('lat');
+let lon = localStorage.getItem('lon');
 const myKey = config.MY_KEY;
 
 
@@ -10,13 +12,20 @@ $('#current-day').text(currentDay);
 $(document).ready(displayArr);
 
 function displayArr() {
-    
-    console.log(storedNames[0]);
-    let lat = localStorage.getItem('lat');
-    let lon = localStorage.getItem('lon');
-    apiCalls(storedNames[0]);
 
-}    
+    for(let i =0; i < storedNames.length; i++) {
+        for(let i = 0; i < storedNames.length; i++) {
+            let newButton = $('<button>').text(storedNames[i]).val(storedNames[i])
+            console.log(newButton)
+            $('.list-group').append(newButton)
+
+
+    }
+    apiCalls();
+
+}   
+
+}
 
 function apiCalls() {
     
@@ -102,4 +111,3 @@ function addButtons() {
         $('.list-group').append(newButton)
     }
 }
-
