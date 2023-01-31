@@ -28,10 +28,8 @@ function displayArr() {
 
 // API calls
 function apiCalls(button) {
+    $('#forecast').empty();
     // input validation 
-    //if search-input !== '' then searchVal = searchinput.val()
-    // else if userSearches[0] !== ''
-    // else searchVal === this.button.value;
     if(button !== '') {
         searchVal = button;
         console.log('button input')    
@@ -80,20 +78,20 @@ function dynamicEls(response) {
     let iconEl = response.list[0].weather[0].icon;
     let imageEl = $('<img>').attr('src', 'https://openweathermap.org/img/wn/' + iconEl + '@2x.png')
     $('#today').text(response.city.name + ' ' + currentDay).append(imageEl);
-    let temp = $('<div>').append(response.list[0].main.temp + "\u00B0" + 'C');
-    let wind = $('<div>').append(response.list[0].wind.speed +'mph');
-    let humidity = $('<div>').append(response.list[0].main.humidity + '%');
+    let temp = $('<div>').text('Temp: ').append(response.list[0].main.temp + "\u00B0" + 'C');
+    let wind = $('<div>').text('Wind: ').append(response.list[0].wind.speed +'mph');
+    let humidity = $('<div>').text('Humidity: ').append(response.list[0].main.humidity + '%');
     $('#today').append(temp, wind, humidity);
 // forecast
     for(let i = 7; i <= 39; i+=8) {
         let fiveDayIcon = response.list[i].weather[0].icon;
         let fiveDayImg = $('<img>').attr('src', 'https://openweathermap.org/img/wn/' + fiveDayIcon + '@2x.png')
         let forecastDate  = moment().add([i + 1],'days').format('dddd')
-        let newDiv = $('<div>').attr('class', 'card').css({'background-color':'lightgrey'});
-        let fiveDayTemp = $('<div>').append(response.list[i].main.temp + "\u00B0" + 'C');
-        let fiveDayDate = $('<div>').append(forecastDate)
-        let fiveDayWind = $('<div>').append(response.list[i].wind.speed +'mph');
-        let fiveDayHumidity = $('<div>').append(response.list[i].main.humidity + '%');
+        let newDiv = $('<div>').attr('class', 'card');
+        let fiveDayTemp = $('<div>').text('Temp: ').attr('class', 'card-elements').append(response.list[i].main.temp + "\u00B0" + 'C');
+        let fiveDayDate = $('<div>').append(forecastDate).attr('class', 'card-headers')
+        let fiveDayWind = $('<div>').text('Wind: ').attr('class', 'card-elements').append(response.list[i].wind.speed +'mph');
+        let fiveDayHumidity = $('<div>').text('Humidity: ').attr('class', 'card-elements').append(response.list[i].main.humidity + '%');
         $(newDiv).append(fiveDayDate, fiveDayImg,  fiveDayTemp, fiveDayWind, fiveDayHumidity);
         $('#forecast').append(newDiv);
     }
@@ -110,7 +108,7 @@ function addButtons() {
     }
     // give each new button the value of the array[i]
     for(let i = 0; i < userSearches.length; i++) {
-        let newButton = $('<button>').text(userSearches[i]).val(userSearches[i])
+        let newButton = $('<button>').text(userSearches[i]).val(userSearches[i]).attr('class', 'btn btn-info mt-1 p3')
     // appends each new button to the page
         $('.list-group').append(newButton)
     }
@@ -118,7 +116,7 @@ function addButtons() {
 
 $(document).on('click', 'button', function(event){
     event.preventDefault();
-    $('#forecast').empty();
+    
     button = this.value
     console.log(button)
     apiCalls(button);

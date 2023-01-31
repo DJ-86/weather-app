@@ -1,0 +1,76 @@
+.card {
+    text-align: center;
+    margin: 0.5rem;
+    padding: 1rem;
+    background-color: #138496;
+    border: 1px solid transparent;
+    transition: color .55s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.card:hover {
+    background-color: #138496;
+    border-color: #03045E;
+}
+
+.btn-info {
+    border: 1px solid #03045E;
+    background-color: #17a2b8;
+}
+
+body {
+        background-image: url(./assets/tim-mossholder-2E2n6NrfhAY-unsplash.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: 'Roboto', sans-serif;
+}
+
+#today {
+    font-size: 2rem;
+    color: #fff;
+}
+
+#search-input {
+    border-radius: 2px;
+    width: 100%;
+    border: none;
+    margin-top: 0.5rem;
+    border: 1px solid #03045E;
+}
+
+#today {
+    background-color: #138496;
+    border-radius: 2px;
+    padding: 1rem;
+    border: 1px solid #03045E;
+    border-radius: 5px;
+}
+
+aside {
+    background-color: #cceff5;
+    border-bottom-right-radius:5px ;
+    border-bottom-left-radius:5px ;
+}
+
+#search-button {
+    color: #fff;
+    border: 1px solid #03045E;
+    margin-top: 0.2rem;
+    background-color: #17a2b8;
+    border-radius: 5px;
+}
+
+#search-button:hover {
+    background-color: #138496;
+    border: 1px solid transparent;
+}
+
+.card-headers {
+    background-color: #cceff5;
+    font-weight: 700;
+}
+
+.card-elements { 
+    background-color: #cceff5;
+    padding: 0 1rem;
+    
+}
