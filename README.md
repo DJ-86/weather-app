@@ -35,9 +35,9 @@ A dashboard that allows a user to search for a city and then displays todays wea
 
 ## Screenshots
 ![Screen-grab](./assets/screengrab.JPG)
-![Javascript](./assets/javaScript.JPG)
+![Javascript](./assets/javascript.jpg)
 ![HTML/Bootstrap](./assets/html.JPG)
-![CSS](./assets/CSS.jpg)
+![CSS](./assets/CSS.JPG)
 
 ## License
 * [MIT](LICENSE.md)
